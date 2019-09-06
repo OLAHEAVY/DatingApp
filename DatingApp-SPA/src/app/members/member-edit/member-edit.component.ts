@@ -14,6 +14,8 @@ import { AuthService } from 'src/app/_services/auth.service';
 })
 export class MemberEditComponent implements OnInit {
   user: User;
+  photoUrl: string;
+  // to reset the state of the form
   @ViewChild('editForm') editForm: NgForm;
   // this is to check if the browser tab is to be closed by the user
   @HostListener('window:beforeunload', ['$event'])
@@ -30,16 +32,21 @@ export class MemberEditComponent implements OnInit {
     this.route.data.subscribe(data => {
       this.user = data['user'];
     });
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   updateUser() {
-    this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next =>{
+    this.userService.updateUser(this.authService.decodedToken.nameid, this.user).subscribe(next => {
       this.alertify.success('Profile Updated Sucessfully');
       this.toastr.success('Profile Updated Successfully', 'Success');
       this.editForm.reset(this.user);
     }, error => {
       this.alertify.error(error);
     });
+  }
+// method to update the main photo
+  updateMainPhoto(photoUrl) {
+    this.user.photoUrl = photoUrl;
   }
 
 }

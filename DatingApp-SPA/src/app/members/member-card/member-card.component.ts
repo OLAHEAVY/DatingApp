@@ -7,6 +7,7 @@ import { User } from 'src/app/_models/user';
   styleUrls: ['./member-card.component.css']
 })
 export class MemberCardComponent implements OnInit {
+  // this is a child component to the member-list page
   @Input() user: User;
 
   constructor() { }

@@ -11,24 +11,35 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class NavComponent implements OnInit {
   model: any = {};
+  photoUrl: string;
 
   // passing the auth service into the constructor
-  constructor(public authService: AuthService, private alertify: AlertifyService, private router: Router, private toastr: ToastrService) { }
+  constructor(
+    public authService: AuthService,
+    private alertify: AlertifyService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit() {
+    this.authService.currentPhotoUrl.subscribe(photoUrl => this.photoUrl = photoUrl);
   }
 
   // This is the method that logs the user in
   login() {
-    this.authService.login(this.model).subscribe(next => {
-      this.alertify.success('Logged in Successfull');
-      this.toastr.success('Logged in Successfull', 'Success');
-    }, error => {
-      this.alertify.error(error);
-      this.toastr.error(error, 'Error');
-    }, () => {
-      this.router.navigate(['/members']);
-    });
+    this.authService.login(this.model).subscribe(
+      next => {
+        this.alertify.success('Logged in Successfull');
+        this.toastr.success('Logged in Successfull', 'Success');
+      },
+      error => {
+        this.alertify.error(error);
+        this.toastr.error(error, 'Error');
+      },
+      () => {
+        this.router.navigate(['/members']);
+      }
+    );
   }
 
   // This is the method that changes the display if the user is logged in.
@@ -38,9 +49,11 @@ export class NavComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    this.authService.decodedToken = null;
+    this.authService.currentUser = null;
     this.alertify.warning('Logged Out');
     this.toastr.warning('Logged Out', 'Warning');
     this.router.navigate(['home']);
   }
-
 }

@@ -48,7 +48,7 @@ namespace DatingApp.Api.Controllers
 
         public async Task<IActionResult> UpdateUser(int id, [FromBody] UserForUpdateDto userForUpdateDto)
       {
-          // confirmin if the logged-in user is the user that wants to update the profile.
+          // confirming if the logged-in user is the user that wants to update the profile.
           if(id != int.Parse(User.FindFirst(ClaimTypes.NameIdentifier).Value))
             return Unauthorized();
           
