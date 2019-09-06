@@ -12,6 +12,7 @@ import { ToastrService } from 'ngx-toastr';
 export class NavComponent implements OnInit {
   model: any = {};
   photoUrl: string;
+  public loading = false;
 
   // passing the auth service into the constructor
   constructor(
@@ -40,7 +41,7 @@ export class NavComponent implements OnInit {
         this.router.navigate(['/members']);
       }
     );
-  }
+}
 
   // This is the method that changes the display if the user is logged in.
   loggedIn() {

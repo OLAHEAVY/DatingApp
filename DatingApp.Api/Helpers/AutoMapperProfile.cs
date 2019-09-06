@@ -41,6 +41,9 @@ namespace DatingApp.Api.Helpers
             //dto for uploading the photo
             CreateMap<PhotoForCreationDto, Photo>();
 
+            //dto for registration of users
+            CreateMap<UserForRegisterDto, User>();
+
         }
     }
 }

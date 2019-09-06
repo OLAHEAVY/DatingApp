@@ -40,16 +40,17 @@ namespace DatingApp.Api.Controllers
              return BadRequest("Username Already exixts");
 
             //creating the user in the database with the username
-             var userToCreate = new User 
-             {
-                 Username = userForRegisterDto.Username
-             };
+             var userToCreate = _mapper.Map<User>(userForRegisterDto);
+           
 
             //passing the username and password input to the register method created in the repository
              var  createdUser = await _repo.Register(userToCreate, userForRegisterDto.Password);
 
+             //user to return
+             var userToReturn = _mapper.Map<UserForDetailDto>(createdUser);
+
             // The CreatedAtRoute method is intended to return a URL to the newly created resource when you invoke a POST method to store some new object.
-             return StatusCode(201);
+             return CreatedAtRoute("GetUser", new {controller ="Users", id = createdUser.Id}, userToReturn);
         }
 
          [HttpPost("login")]
